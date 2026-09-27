@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BloxMarket</title>
+  <meta name="description" content="متجر إلكتروني">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="toast" class="toast"></div>
+
+  <header class="topbar">
+    <div class="top-actions">
+      <button class="icon-btn" id="themeBtn" title="الوضع الليلي">☾</button>
+      <button class="icon-btn cart-btn" id="cartBtn" title="السلة">
+        🛍️ <span id="cartCount">0</span>
+      </button>
+      <button class="icon-btn" id="searchBtn" title="بحث">⌕</button>
+    </div>
+    <div class="brand-mini">
+      <img src="logo.jpg.png" alt="Logo">
+    </div>
+    <button class="menu-btn" id="menuBtn">☰</button>
+  </header>
+
+  <div id="sideMenu" class="side-menu">
+    <button id="closeMenu">✕</button>
+    <h3 id="menuSiteName">BloxMarket</h3>
+    <a href="#home">الرئيسية</a>
+    <a href="#products">المنتجات</a>
+    <a href="#about">معلومات عنا</a>
+    <a href="admin.html">لوحة الإدارة</a>
+  </div>
+  <div id="overlay" class="overlay"></div>
+
+  <main id="home">
+    <section class="hero">
+      <div class="hero-pattern"></div>
+      <div class="hero-logo-wrap">
+        <img src="logo.jpg.png" class="hero-logo" alt="شعار المتجر">
+      </div>
+    </section>
+
+    <section class="profile">
+      <h1 id="siteName">BloxMarket</h1>
+      <p id="subtitle" class="subtitle">تقييم البائع (ممتاز)</p>
+      <div class="stars">★★★★★</div>
+
+      <div class="profile-buttons">
+        <a class="gradient-btn" href="#reviews">آراء المشترين</a>
+        <a class="gradient-btn" id="contactBtn" href="#">تواصل معنا</a>
+      </div>
+
+      <a id="tiktokBtn" class="social-btn" href="#" target="_blank" rel="noopener">♪</a>
+    </section>
+
+    <section class="quick-info" id="about">
+      <div><span>🗺️</span><b>طلباتك</b></div>
+      <div><span>🇪🇬</span><b id="country">مصر</b></div>
+      <div><span>📍</span><b id="location">موقعنا</b></div>
+    </section>
+
+    <section class="products-section" id="products">
+      <div class="section-title">
+        <h2>المنتجات</h2>
+        <button id="searchOpen" class="small-btn">بحث 🔎</button>
+      </div>
+      <div id="searchBox" class="search-box hidden">
+        <input id="searchInput" type="search" placeholder="ابحث عن منتج...">
+      </div>
+      <div id="productsGrid" class="products-grid"></div>
+    </section>
+  </main>
+
+  <div id="cartDrawer" class="drawer">
+    <div class="drawer-head">
+      <h2>سلة التسوق</h2>
+      <button id="closeCart">✕</button>
+    </div>
+    <div id="cartItems"></div>
+    <div class="cart-summary">
+      <div><span>سلة التسوق</span><strong id="subtotal">EGP 0.00</strong></div>
+      <div><span>خصم</span><strong>EGP 0.00</strong></div>
+      <div><span>تكلفة التوصيل</span><strong id="delivery">EGP 0.00</strong></div>
+      <div class="total"><span>المجموع</span><strong id="total">EGP 0.00</strong></div>
+    </div>
+    <button id="checkoutBtn" class="gradient-btn wide">متابعة الطلب</button>
+  </div>
+
+  <div id="checkoutModal" class="modal hidden">
+    <div class="modal-card">
+      <button class="modal-close" id="closeCheckout">✕</button>
+      <h2>تأكيد الطلب</h2>
+      <label>اسمك<input id="customerName" type="text" required></label>
+      <label>بريدك الإلكتروني (اختياري)<input id="customerEmail" type="email"></label>
+      <label>رقم الهاتف<input id="customerPhone" type="tel" placeholder="01xxxxxxxxx" required></label>
+      <label>المدينة
+        <select id="customerCity">
+          <option value="">--- الرجاء التحديد ---</option>
+          <option>القاهرة</option><option>الجيزة</option><option>الإسكندرية</option>
+          <option>القليوبية</option><option>الشرقية</option><option>الدقهلية</option>
+          <option>المنوفية</option><option>الغربية</option><option>البحيرة</option>
+          <option>أسيوط</option><option>سوهاج</option><option>الأقصر</option>
+          <option>أسوان</option><option>أخرى</option>
+        </select>
+      </label>
+      <label>العنوان<input id="customerAddress" type="text" required></label>
+      <label>معلومات إضافية (اختياري)<textarea id="customerNotes"></textarea></label>
+      <div class="payment-box">
+        <h3>طريقة الدفع</h3>
+        <label class="payment-option">
+          <input type="radio" name="payment" value="whatsapp" checked>
+          <span>تواصل معنا لتأكيد طلبك</span>
+          <span class="wa">◉</span>
+        </label>
+      </div>
+      <button id="confirmOrder" class="gradient-btn wide">تأكيد الطلب!</button>
+    </div>
+  </div>
+
+  <footer>
+    <p id="footerText">المتجر الإلكتروني للبائع</p>
+    <div>شروط الخدمة &nbsp; الخصوصية</div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

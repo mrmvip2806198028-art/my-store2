@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>لوحة إدارة المتجر</title><link rel="stylesheet" href="style.css">
+<style>
+.admin{max-width:900px;margin:auto;padding:25px}.admin-card{background:#1c2125;border:1px solid #30363d;border-radius:22px;padding:22px;margin-bottom:20px}
+.admin h1{margin-top:0}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px}.admin label{display:block;margin:12px 0}.admin input,.admin textarea{width:100%;background:#171b1e;color:#fff;border:1px solid #30363d;border-radius:13px;padding:12px}.admin textarea{min-height:80px}.admin button{border:0;border-radius:13px;padding:11px 18px;background:linear-gradient(100deg,#167bff,#2cc6b3);color:#fff;font-weight:800}.product-admin{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #30363d;padding:12px 0;gap:10px}.danger{background:#d9534f!important}.back{display:inline-block;color:#fff;margin-bottom:20px}
+@media(max-width:650px){.grid2{grid-template-columns:1fr}.product-admin{align-items:flex-start;flex-direction:column}}
+</style></head>
+<body>
+<div class="admin">
+<a class="back" href="index.html">← الرجوع للمتجر</a>
+<h1>لوحة إدارة BloxMarket</h1>
+<div id="loginBox" class="admin-card">
+<h2>دخول الإدارة</h2><label>الرقم السري<input id="pin" type="password"></label>
+<button onclick="login()">دخول</button>
+<p style="color:#aaa">الرقم الافتراضي: 0 — غيّره من config.js قبل النشر.</p>
+</div>
+<div id="panel" class="hidden">
+<div class="admin-card">
+<h2>إعدادات المتجر</h2>
+<div class="grid2">
+<label>اسم المتجر<input id="siteName"></label>
+<label>رقم واتساب<input id="whatsapp"></label>
+<label>العنوان/الموقع<input id="location"></label>
+<label>تيك توك<input id="tiktok"></label>
+<label>تكلفة التوصيل<input id="delivery" type="number"></label>
+<label>النص السفلي<input id="footer"></label>
+</div>
+<button onclick="saveSettings()">حفظ الإعدادات</button>
+</div>
+<div class="admin-card">
+<h2>إضافة منتج</h2>
+<div class="grid2">
+<label>اسم المنتج<input id="pname"></label>
+<label>السعر<input id="pprice" type="number"></label>
+<label>شارة صغيرة مثل X1<input id="pbadge"></label>
+<label>رابط الصورة<input id="pimage" placeholder="https://... أو assets/logo.jpg"></label>
+</div>
+<label>الوصف<textarea id="pdesc"></textarea></label>
+<button onclick="addProduct()">إضافة المنتج</button>
+</div>
+<div class="admin-card">
+<h2>المنتجات الحالية</h2><div id="list"></div>
+</div>
+</div>
+</div>
+<script src="config.js"></script>
+<script>
+let products=JSON.parse(localStorage.getItem("bm_products")||"null")||DEFAULT_PRODUCTS;
+function login(){if(document.getElementById("pin").value===SITE_CONFIG.adminPin){document.getElementById("loginBox").classList.add("hidden");document.getElementById("panel").classList.remove("hidden");load();}else alert("الرقم السري غير صحيح")}
+function load(){
+ siteName.value=localStorage.getItem("bm_siteName")||SITE_CONFIG.siteName;
+ whatsapp.value=localStorage.getItem("bm_whatsapp")||SITE_CONFIG.whatsapp;
+ location.value=localStorage.getItem("bm_location")||SITE_CONFIG.locationText;
+ tiktok.value=localStorage.getItem("bm_tiktok")||SITE_CONFIG.tiktokUrl;
+ delivery.value=localStorage.getItem("bm_delivery")||SITE_CONFIG.deliveryCost;
+ footer.value=localStorage.getItem("bm_footer")||SITE_CONFIG.footerText;
+ render();
+}
+function saveSettings(){
+ localStorage.setItem("bm_siteName",siteName.value);localStorage.setItem("bm_whatsapp",whatsapp.value);
+ localStorage.setItem("bm_location",location.value);localStorage.setItem("bm_tiktok",tiktok.value);
+ localStorage.setItem("bm_delivery",delivery.value);localStorage.setItem("bm_footer",footer.value);
+ alert("تم حفظ الإعدادات على هذا الجهاز. للتعديل الدائم لكل الزوار عدّل config.js أيضاً.");
+}
+function addProduct(){
+ const p={id:Date.now(),name:pname.value.trim(),price:Number(pprice.value),badge:pbadge.value.trim(),image:pimage.value.trim()||"assets/logo.jpg",description:pdesc.value.trim()};
+ if(!p.name||!p.price){alert("اكتب اسم المنتج والسعر");return}
+ products.push(p);save();pname.value=pprice.value=pbadge.value=pimage.value=pdesc.value="";render();
+}
+function save(){localStorage.setItem("bm_products",JSON.stringify(products))}
+function del(id){if(confirm("حذف المنتج؟")){products=products.filter(p=>p.id!==id);save();render()}}
+function render(){list.innerHTML=products.map(p=>`<div class="product-admin"><span><b>${esc(p.name)}</b> — EGP ${p.price.toFixed(2)}</span><button class="danger" onclick="del(${p.id})">حذف</button></div>`).join("")}
+function esc(v){return String(v).replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]) )}
+</script></body></html>
